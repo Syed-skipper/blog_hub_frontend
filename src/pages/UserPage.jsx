@@ -9,7 +9,7 @@ export default function UsersPage() {
   const { user_id } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
-  const fetchUser = async (id) => {
+  const fetchUser = async () => {
     try {
       const res = await axios.get(`${config.local_url}user/${user_id}`);
       setProfile(res.data);
