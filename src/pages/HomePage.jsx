@@ -67,6 +67,10 @@ function HomePage() {
       await axios.post(`${config.local_url}blog/?user_id=${user_id}`, formData);
       handleClose(true);
       fetchAllBlog();
+      setFormData({
+        title: "",
+        content: "",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -146,7 +150,7 @@ function HomePage() {
             justifyContent: "space-between",
             alignItems: "center",
             mb: 3,
-            mt: 3
+            mt: 3,
           }}
         >
           <TextField
@@ -175,8 +179,12 @@ function HomePage() {
         </Box>
       )}
       {selectedBlog ? (
-        <Box sx={{m:3}}>
-          <Button variant="outlined" onClick={() => setSelectedBlog(null)} sx={{ mb: 2 }}>
+        <Box sx={{ m: 3 }}>
+          <Button
+            variant="outlined"
+            onClick={() => setSelectedBlog(null)}
+            sx={{ mb: 2 }}
+          >
             ← Back to Blogs
           </Button>
 
@@ -210,7 +218,10 @@ function HomePage() {
 
           <Divider sx={{ mb: 2 }} />
 
-          <Typography variant="body1" sx={{ whiteSpace: "pre-wrap", textAlign: 'left' }}>
+          <Typography
+            variant="body1"
+            sx={{ whiteSpace: "pre-wrap", textAlign: "left" }}
+          >
             {selectedBlog.content}
           </Typography>
         </Box>
