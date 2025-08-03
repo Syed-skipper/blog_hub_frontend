@@ -22,12 +22,6 @@ export function LoginPage() {
     confirm_password: "",
     error: "",
   };
-  const { isAuthenticated } = useContext(AuthContext);
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/home", { replace: true });
-    }
-  }, [isAuthenticated]);
 
   const [formData, setFormData] = useState(formValues);
   const [showPassword, setShowPassword] = useState(false);
@@ -82,7 +76,7 @@ export function LoginPage() {
           config.local_url + "auth/login",
           formData
         );
-        setUserId(response.data.user_id);
+        setUserId(response.data.user._id);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user_id", response.data.user._id);
         navigate("/home");

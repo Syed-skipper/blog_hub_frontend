@@ -36,9 +36,9 @@ function BlogPage() {
     content: "",
   });
 
-  const fetchBlogs = async (id) => {
+  const fetchBlogs = async () => {
     try {
-      const response = await axios.get(`${config.local_url}blog/${id}`);
+      const response = await axios.get(`${config.local_url}blog/${user_id}`);
       setBlogs(response.data);
     } catch (error) {
       console.error("Failed to fetch blogs:", error);
@@ -46,10 +46,8 @@ function BlogPage() {
   };
 
   useEffect(() => {
-    const localUserId = user_id;
-
-    if (localUserId) {
-      fetchBlogs(localUserId);
+    if (user_id) {
+      fetchBlogs();
     }
   }, [user_id]);
 

@@ -6,11 +6,14 @@ import AuthContext from "../context/AuthContext";
 
 export default function UsersPage() {
   const [profile, setProfile] = useState({ name: "", email: "" });
-  const {user_id} = useContext(AuthContext)
-  const fetchUser = async () => {
+  const { user_id } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
+
+  const fetchUser = async (id) => {
     try {
       const res = await axios.get(`${config.local_url}user/${user_id}`);
       setProfile(res.data);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching user:", error);
     }
@@ -18,7 +21,9 @@ export default function UsersPage() {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [user_id]);
+
+  if (loading) return null;
 
   return (
     <Box
