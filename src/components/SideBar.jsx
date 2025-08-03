@@ -9,9 +9,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-
 import { useNavigate, useLocation } from "react-router-dom";
-
 const drawerWidth = 300;
 
 export default function Sidebar() {

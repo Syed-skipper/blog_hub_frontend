@@ -11,7 +11,7 @@ import {
   Typography,
   Stack,
   Modal,
-  TextField
+  TextField,
 } from "@mui/material";
 
 const style = {
@@ -35,10 +35,10 @@ function BlogPage() {
     title: "",
     content: "",
   });
-  const fetchBlogs = async () => {
+
+  const fetchBlogs = async (id) => {
     try {
-      const response = await axios.get(`${config.local_url}blog/${user_id}`);
-      console.log("qqqqqqqqq", response);
+      const response = await axios.get(`${config.local_url}blog/${id}`);
       setBlogs(response.data);
     } catch (error) {
       console.error("Failed to fetch blogs:", error);
@@ -46,24 +46,28 @@ function BlogPage() {
   };
 
   useEffect(() => {
-    fetchBlogs();
-  }, []);
+    const localUserId = user_id;
+
+    if (localUserId) {
+      fetchBlogs(localUserId);
+    }
+  }, [user_id]);
 
   const handleEdit = async (data) => {
     try {
-      handleOpen(true)
-      setFormData(data)
+      handleOpen(true);
+      setFormData(data);
     } catch (error) {
       console.error("Delete failed:", error);
     }
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       await axios.put(`${config.local_url}blog/${formData._id}`, formData);
       fetchBlogs();
-      handleClose()
+      handleClose();
     } catch (error) {
       handleOpen();
       console.error("Delete failed:", error);
