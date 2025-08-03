@@ -257,6 +257,7 @@ function HomePage() {
                 variant="body2"
                 color="text.secondary"
                 sx={{
+                  mt: 1,
                   textAlign: "left",
                   display: "-webkit-box",
                   WebkitLineClamp: 4,
