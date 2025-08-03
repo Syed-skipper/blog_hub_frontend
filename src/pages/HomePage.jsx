@@ -43,8 +43,25 @@ function HomePage() {
 
   const fetchAllBlog = async () => {
     try {
-      const data = await axios.get(`${config.local_url}blog`);
-      setBlog(data.data);
+      let respo = await axios.get(`${config.local_url}blog`);
+      if (respo.data?.length) {
+        respo.data = respo.data.map((item) => {
+          const date = new Date(item.createdAt);
+          const options = { month: "short", day: "2-digit" };
+          const datePart = date.toLocaleDateString("en-US", options);
+
+          let hours = date.getHours();
+          const minutes = date.getMinutes().toString().padStart(2, "0");
+          const ampm = hours >= 12 ? "pm" : "am";
+          hours = hours % 12 || 12;
+
+          const timePart = `${hours}.${minutes} ${ampm}`;
+
+          item.createdAt = `${datePart} ${timePart}`;
+          return item;
+        });
+      }
+      setBlog(respo.data);
     } catch (error) {
       console.log(error);
     }
@@ -242,8 +259,22 @@ function HomePage() {
               sx={{ display: "flex", flexDirection: "column", flex: 1, p: 2 }}
             >
               <Stack direction="row" alignItems="center" spacing={1}>
-                <Avatar alt={item.author.name} src="/assets/fallback.png" />
+                <Avatar
+                  alt={item.author.name}
+                  src="/assets/fallback.png"
+                  sx={{ bgcolor: "dodgerblue" }}
+                />
                 <Typography variant="subtitle2">{item.author.name}</Typography>
+                <Typography
+                  sx={{
+                    bgcolor: "darkgrey",
+                    padding: "0px 10px",
+                    borderRadius: "15px",
+                    fontSize: '12px'
+                  }}
+                >
+                  {item.createdAt}
+                </Typography>
               </Stack>
 
               <Typography
